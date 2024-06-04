@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .main{
+            display: grid;
+            grid-template-rows: auto;
+            position: relative;
+        }
+        .top{
+            display: grid;
+            grid-template-columns: 1fr 7fr;
+            background-color: rgb(0, 0, 0, 0.80);
+            width: 100%;
+            position: fixed;
+            z-index: 1000;
+            backdrop-filter: saturate(180%) blur(20px);
+            height: 30px;
+        }
+        .hamburgermenu{
+            display: grid;
+            grid-template-columns: auto;
+            place-items: center;
+            position: relative; /* Add this line */
+            z-index: 4000; /* Add this line */
+        }
+        .navbar-selections{
+            text-decoration: none;
+            transition: 0.5s;
+        }
+        .navbar-selections:hover{
+            color: black;
+        }
+        .selections{
+            display: grid;
+            grid-template-columns: auto auto auto auto auto auto auto;
+            place-items: center;
+        }
+        .selection-txt{
+            color: white;
+            font-size: 10px;
+        }
+        .menu {
+            text-decoration: none;
+            color: #ffffff;
+            background-color: rgb(57,57,57);
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .bar1, .bar2, .bar3 {
+            width: 20px;
+            height: 2px;
+            background-color: rgb(255, 255, 255);
+            margin: 4px 0;  
+            transition: 0.4s;
+        }
+
+        .active .bar1 {
+            transform: translate(0, 6px) rotate(-45deg);
+        }
+
+        .active .bar2 {
+            opacity: 0;
+        }
+
+        .active .bar3 {
+            transform: translate(0, -6px) rotate(45deg);
+        }
+        .active .menu{
+            background-color: rgba(10, 10, 10, 0.80);
+        }
+
+        .bottom{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            margin-top: 15px;
+        }
+        .spotted-container{
+            background-color: rgb(255, 255, 255);
+            display: grid;
+            grid-template-rows: 1fr auto;
+            border-width: 5px;
+            border-color: white;
+            border-style: solid;
+        }
+        .spotted-stat-con{
+            display: grid;
+            grid-template-columns: auto auto;
+        }
+        .stats-con{
+            display: grid;
+            grid-template-rows: auto auto auto auto;
+        }
+        .triggered-icons{
+            display: grid;
+            grid-template-columns: auto auto auto;
+            justify-content: end;
+            margin-top: 5px;
+            margin-right: 2px;
+        }
+        .triggered-icons-class{
+            margin: 0 0 0 10px;
+        }
+        .saved{
+            color: blue;
+        }
+        .fa-bookmark:hover{
+            cursor: pointer;
+        }
+        .category-con, .location-con, .views-con{
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+        }
+        .user-pfp-con{
+            display: flex; /* Use flexbox */
+            align-items: center; /* Align items vertically */
+            padding-left: 5px;
+        }
+        .user-pfp{
+            width: 30px; /* Set a fixed width */
+            height: 30px; /* Set a fixed height */
+            border-radius: 50%;
+            margin-right: 5px; /* Add margin to create space between profile picture and username */
+            object-fit: cover; /* Crop image to cover the entire container */
+            transition: 0.5s;
+        }
+        .user-pfp:hover{
+            width: 33px; /* Set a fixed width */
+            height: 33px; /* Set a fixed height */
+        }
+        .user-pfp:hover, .triggered-icons-class:hover{
+            cursor: pointer;
+        }
+        .image-con{
+            width: 100%;
+        }
+        .spotted-img{
+            width: 100%;
+            position: relative;
+        }
+        .txt{
+            color: rgb(0, 0, 0);
+            margin: 5px 0 0 0;
+            padding-left: 5px;
+            font-size: 10px;
+        }
+        .user-name{
+            font-weight: bold;
+        }
+        .user-name:hover{
+            color: blue;
+            cursor: default;
+        }
+        .locations{
+            color: rgb(53, 94, 206);
+        }
+        .views{
+            color: rgb(72, 72, 72);
+        }
+
+        @media screen and (max-width: 767px){
+            .bottom{
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+            .logout{
+                text-decoration: none;
+                list-style: none;
+                color: white;
+                text-align: center;
+                font-size: 10px;
+            }
+            .box{
+                display: flex;
+                align-items: center;
+                width: 15%;
+                height: 100%;
+                position: absolute;
+                background-color: blue;
+                text-align: left;
+                left: -500px;
+                pointer-events: none;
+                opacity: 0;
+                z-index: 2000; /* Ensure it's above other content */
+                margin-top: 30px;
+                transition: 0.3s;
+                background-color: rgb(0, 0, 0, 0.80);
+                backdrop-filter: saturate(180%) blur(20px);
+            }
+            .active.box{
+                opacity: 1;
+                left: 0px;
+                pointer-events: fill;
+                position: fixed;
+            }
+        }
+        .logout{
+            text-decoration: none;
+            list-style: none;
+            color: white;
+            transition: 0.5s;
+        }
+        .logout:hover{
+            color: gray;
+        }
+        .box{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 12%;
+            height: 100%;
+            position: absolute;
+            background-color: blue;
+            text-align: left;
+            left: -500px;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 2000; /* Ensure it's above other content */
+            margin-top: 30px;
+            transition: 0.3s;
+            background-color: rgb(0, 0, 0, 0.80);
+            backdrop-filter: saturate(180%) blur(20px);
+        }
+        .active.box{
+            opacity: 1;
+            left: 0px;
+            pointer-events: fill;
+            position: fixed;
+        }
+        .black{
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            position: absolute;
+            position: fixed;
+            opacity: 0;
+            transition: 0.5s;
+        }
+        .active.black{
+            background-color: rgb(0, 0, 0, 0.80);
+            backdrop-filter: saturate(180%) blur(20px);
+            z-index: 1000;
+            opacity: 1;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="black"></div>
+    <div class="box">
+        <a href="index.html" class="logout">Log Out</a>
+    </div>
+    <div class="main">'
+        <div class="top">
+            <div class="hamburgermenu">
+                <div class="hamburgermenucontainer">
+                    <div class="menu">
+                      <div class="bar1"></div>
+                      <div class="bar2"></div>
+                      <div class="bar3"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="selections">
+                <div class="selection-textcon">
+                    <a class="selection-txt navbar-selections" href="spotted.html">Spotted</a>
+                </div>
+                <div class="selection-textcon">
+                    <a class="selection-txt navbar-selections" href="portrait.html">Portrait</a>
+                </div>
+                <div class="selection-textcon">
+                    <a class="selection-txt navbar-selections" href="foods.html">Foods</a>
+                </div>
+                <div class="selection-textcon">
+                    <a class="selection-txt navbar-selections" href="nature.html">Nature</a>
+                </div>
+                <div class="selection-textcon">
+                    <a class="selection-txt navbar-selections" href="street.html">Street</a>
+                </div>
+                <div class="selection-textcon">
+                    <a class="selection-txt navbar-selections" href="myself.html">Myself</a>
+                </div>
+                <div class="selection-textcon">
+                    <a class="selection-txt navbar-selections" href="developersinfo.html">About Us</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom">
+            <div class="spotted-container">
+                <div class="image-con">
+                    <img class="spotted-img" src="Portrait Pics/portrait1.png" alt="">
+                </div>
+                <div class="spotted-stat-con">
+                    <div class="stats-con">
+                        <div class="user-pfp-con">
+                            <img src="Portrait Pics/portrait1.png" alt="" class="user-pfp">
+                            <p class="user-name txt">naelia_sxy</p>
+                        </div>
+                        <div class="category-con">
+                        <i class="fa-solid fa-image-portrait txt icons"></i>
+                        <p class="category txt">Portrait</p>
+                        </div>
+                        <div class="location-con">
+                            <i class="fa-solid fa-location-dot locations txt icons"></i>
+                            <p class="location txt">Paris</p> 
+                        </div>
+                        <div class="views-con">
+                            <i class="fa-solid fa-eye txt icons"></i>
+                            <p class="views txt">11.5k views</p>
+                        </div>
+                    </div>
+                    <div class="triggered-icons">
+                        <i class="fa-regular fa-bookmark triggered-icons-class" onclick="toggleBookmarkColor(this)"></i>
+                    </div>
+                    <script>
+                        // Function to toggle bookmark color
+                        function toggleBookmarkColor(icon) {
+                            icon.classList.toggle("saved");
+                        }
+                    </script>
+                </div>
+            </div>
+            <div class="spotted-container">
+                <div class="image-con">
+                    <img class="spotted-img" src="foods/food1.png" alt="">
+                </div>
+                <div class="spotted-stat-con">
+                    <div class="stats-con">
+                        <div class="user-pfp-con">
+                            <img src="Portrait Pics/portrait2.png" alt="" class="user-pfp">
+                            <p class="user-name txt">toursist_shaaa</p>
+                        </div>
+                        <div class="category-con">
+                        <i class="fa-solid fa-utensils txt icons"></i>
+                        <p class="category txt">Foods</p>
+                        </div>
+                        <div class="location-con">
+                            <i class="fa-solid fa-location-dot locations txt icons"></i>
+                            <p class="location txt">Incheon</p> 
+                        </div>
+                        <div class="views-con">
+                            <i class="fa-solid fa-eye txt icons"></i>
+                            <p class="views txt">11.5k views</p>
+                        </div>
+                    </div>
+                    <div class="triggered-icons">
+                        <i class="fa-regular fa-bookmark triggered-icons-class" onclick="toggleBookmarkColor(this)"></i>
+                    </div>
+                    <script>
+                        // Function to toggle bookmark color
+                        function toggleBookmarkColor(icon) {
+                            icon.classList.toggle("saved");
+                        }
+                    </script>
+                </div>
+            </div>
+            <div class="spotted-container">
+                <div class="image-con">
+                    <img class="spotted-img" src="IMG/carousel img 3.png" alt="">
+                </div>
+                <div class="spotted-stat-con">
+                    <div class="stats-con">
+                        <div class="user-pfp-con">
+                            <img src="Portrait Pics/portrait3.png" alt="" class="user-pfp">
+                            <p class="user-name txt">itsme_deborah</p>
+                        </div>
+                        <div class="category-con">
+                        <i class="fa-solid fa-image-portrait txt icons"></i>
+                        <p class="category txt">Portrait</p>
+                        </div>
+                        <div class="location-con">
+                            <i class="fa-solid fa-location-dot locations txt icons"></i>
+                            <p class="location txt">Rio de Janerio</p> 
+                        </div>
+                        <div class="views-con">
+                            <i class="fa-solid fa-eye txt icons"></i>
+                            <p class="views txt">11.5k views</p>
+                        </div>
+                    </div>
+                    <div class="triggered-icons">
+                        <i class="fa-regular fa-bookmark triggered-icons-class" onclick="toggleBookmarkColor(this)"></i>
+                    </div>
+                    <script>
+                        // Function to toggle bookmark color
+                        function toggleBookmarkColor(icon) {
+                            icon.classList.toggle("saved");
+                        }
+                    </script>
+                </div>
+            </div>
+            <div class="spotted-container">
+                <div class="image-con">
+                    <img class="spotted-img" src="foods/food4.png" alt="">
+                </div>
+                <div class="spotted-stat-con">
+                    <div class="stats-con">
+                        <div class="user-pfp-con">
+                            <img src="Portrait Pics/portrait4.png" alt="" class="user-pfp">
+                            <p class="user-name txt">leah_shinee</p>
+                        </div>
+                        <div class="category-con">
+                        <i class="fa-solid fa-utensils txt icons"></i>
+                        <p class="category txt">Foods</p>
+                        </div>
+                        <div class="location-con">
+                            <i class="fa-solid fa-location-dot locations txt icons"></i>
+                            <p class="location txt">Dubai</p> 
+                        </div>
+                        <div class="views-con">
+                            <i class="fa-solid fa-eye txt icons"></i>
+                            <p class="views txt">11.5k views</p>
+                        </div>
+                    </div>
+                    <div class="triggered-icons">
+                        <i class="fa-regular fa-bookmark triggered-icons-class" onclick="toggleBookmarkColor(this)"></i>
+                    </div>
+                    <script>
+                        // Function to toggle bookmark color
+                        function toggleBookmarkColor(icon) {
+                            icon.classList.toggle("saved");
+                        }
+                    </script>
+                </div>
+            </div>
+            <div class="spotted-container">
+                <div class="image-con">
+                    <img class="spotted-img" src="IMG/s4.png" alt="">
+                </div>
+                <div class="spotted-stat-con">
+                    <div class="stats-con">
+                        <div class="user-pfp-con">
+                            <img src="Portrait Pics/portrait5.png" alt="" class="user-pfp">
+                            <p class="user-name txt">Jacob</p>
+                        </div>
+                        <div class="category-con">
+                        <i class="fa-solid fa-road txt icons"></i>
+                        <p class="category txt">Street</p>
+                        </div>
+                        <div class="location-con">
+                            <i class="fa-solid fa-location-dot locations txt icons"></i>
+                            <p class="location txt">Abu Dhabi</p> 
+                        </div>
+                        <div class="views-con">
+                            <i class="fa-solid fa-eye txt icons"></i>
+                            <p class="views txt">11.5k views</p>
+                        </div>
+                    </div>
+                    <div class="triggered-icons">
+                        <i class="fa-regular fa-bookmark triggered-icons-class" onclick="toggleBookmarkColor(this)"></i>
+                    </div>
+                    <script>
+                        // Function to toggle bookmark color
+                        function toggleBookmarkColor(icon) {
+                            icon.classList.toggle("saved");
+                        }
+                    </script>
+                </div>
+            </div>
+            <div class="spotted-container">
+                <div class="image-con">
+                    <img class="spotted-img" src="IMG/s2.png" alt="">
+                </div>
+                <div class="spotted-stat-con">
+                    <div class="stats-con">
+                        <div class="user-pfp-con">
+                            <img src="Portrait Pics/portrait6.png" alt="" class="user-pfp">
+                            <p class="user-name txt">emo_jieee</p>
+                        </div>
+                        <div class="category-con">
+                        <i class="fa-solid fa-road txt icons"></i>
+                        <p class="category txt">Street</p>
+                        </div>
+                        <div class="location-con">
+                            <i class="fa-solid fa-location-dot locations txt icons"></i>
+                            <p class="location txt">Saudi Arabia</p> 
+                        </div>
+                        <div class="views-con">
+                            <i class="fa-solid fa-eye txt icons"></i>
+                            <p class="views txt">11.5k views</p>
+                        </div>
+                    </div>
+                    <div class="triggered-icons">
+                        <i class="fa-regular fa-bookmark triggered-icons-class" onclick="toggleBookmarkColor(this)"></i>
+                    </div>
+                    <script>
+                        // Function to toggle bookmark color
+                        function toggleBookmarkColor(icon) {
+                            icon.classList.toggle("saved");
+                        }
+                    </script>
+                </div>
+            </div>
+            <div class="spotted-container">
+                <div class="image-con">
+                    <img class="spotted-img" src="IMG/Nature2.png" alt="">
+                </div>
+                <div class="spotted-stat-con">
+                    <div class="stats-con">
+                        <div class="user-pfp-con">
+                            <img src="Portrait Pics/portrait6.png" alt="" class="user-pfp">
+                            <p class="user-name txt">emo_jieee</p>
+                        </div>
+                        <div class="category-con">
+                        <i class="fa-solid fa-leaf txt icons"></i>
+                        <p class="category txt">Nature</p>
+                        </div>
+                        <div class="location-con">
+                            <i class="fa-solid fa-location-dot locations txt icons"></i>
+                            <p class="location txt">Saudi Arabia</p> 
+                        </div>
+                        <div class="views-con">
+                            <i class="fa-solid fa-eye txt icons"></i>
+                            <p class="views txt">11.5k views</p>
+                        </div>
+                    </div>
+                    <div class="triggered-icons">
+                        <i class="fa-regular fa-bookmark triggered-icons-class" onclick="toggleBookmarkColor(this)"></i>
+                    </div>
+                    <script>
+                        // Function to toggle bookmark color
+                        function toggleBookmarkColor(icon) {
+                            icon.classList.toggle("saved");
+                        }
+                    </script>
+                </div>
+            </div>
+            <div class="spotted-container">
+                <div class="image-con">
+                    <img class="spotted-img" src="IMG/Nature5.png" alt="">
+                </div>
+                <div class="spotted-stat-con">
+                    <div class="stats-con">
+                        <div class="user-pfp-con">
+                            <img src="Portrait Pics/portrait6.png" alt="" class="user-pfp">
+                            <p class="user-name txt">emo_jieee</p>
+                        </div>
+                        <div class="category-con">
+                        <i class="fa-solid fa-leaf txt icons"></i>
+                        <p class="category txt">Nature</p>
+                        </div>
+                        <div class="location-con">
+                            <i class="fa-solid fa-location-dot locations txt icons"></i>
+                            <p class="location txt">Saudi Arabia</p> 
+                        </div>
+                        <div class="views-con">
+                            <i class="fa-solid fa-eye txt icons"></i>
+                            <p class="views txt">11.5k views</p>
+                        </div>
+                    </div>
+                    <div class="triggered-icons">
+                        <i class="fa-regular fa-bookmark triggered-icons-class" onclick="toggleBookmarkColor(this)"></i>
+                    </div>
+                    <script>
+                        // Function to toggle bookmark color
+                        function toggleBookmarkColor(icon) {
+                            icon.classList.toggle("saved");
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let hamburgermenu = document.querySelector(".hamburgermenu");
+        let box = document.querySelector(".box");
+        let black = document.querySelector(".black");
+        let menu =  document.querySelector(".menu");
+    
+        hamburgermenu.onclick = function(){
+            hamburgermenu.classList.toggle("active");
+            box.classList.toggle("active");
+            black.classList.toggle("active");
+            menu.classList.toogle("active");
+        }
+
+        document.onclick = function(e){
+            if(!hamburgermenu.contains(e.target) && !box.contains(e.target)){
+                hamburgermenu.classList.remove("active");
+                box.classList.remove("active");
+                black.classList.remove("active");
+                menu.classList.remove("active");
+            }
+        }
+    </script>
+</body>
+</html>

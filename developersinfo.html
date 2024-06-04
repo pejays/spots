@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .main{
+            display: grid;
+            grid-template-rows: auto auto auto;
+            width: 100%;
+            height: 100%;
+        }
+        .top{
+            display: grid;
+            grid-template-columns: 1fr 7fr;
+            background-color: rgb(0, 0, 0, 0.80);
+            width: 100%;
+            position: fixed;
+            z-index: 1000;
+            backdrop-filter: saturate(180%) blur(20px);
+            height: 30px;
+        }
+        .hamburgermenu{
+            display: grid;
+            grid-template-columns: auto;
+            place-items: center;
+        }
+        .navbar-selections{
+            text-decoration: none;
+            transition: 0.5s;
+        }
+        .navbar-selections:hover{
+            color: black;
+        }
+        .selections{
+            display: grid;
+            grid-template-columns: auto auto auto auto auto auto auto;
+            place-items: center;
+        }
+        .selection-txt{
+            color: white;
+            font-size: 10px;
+        }
+        .menu {
+            text-decoration: none;
+            color: #ffffff;
+            background-color: rgb(57,57,57);
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .bar1, .bar2, .bar3 {
+            width: 20px;
+            height: 2px;
+            background-color: rgb(255, 255, 255);
+            margin: 4px 0;  
+            transition: 0.4s;
+        }
+
+        .change .bar1 {
+            transform: translate(0, 6px) rotate(-45deg);
+        }
+
+        .change .bar2 {
+            opacity: 0;
+        }
+
+        .change .bar3 {
+            transform: translate(0, -6px) rotate(45deg);
+        }
+
+        .top2{
+            margin-top: 28px;
+            display: grid;
+            grid-template-columns: auto;
+            place-items: center;
+            background-color: black;
+            width: 100%;
+        }
+        .developers-txt{
+            color: white;
+            font-size: 50px;
+            text-align: center;
+        }
+        .bottom{
+            display: grid;
+            grid-template-columns: auto auto auto auto auto;
+            place-items: center;
+        }
+        .dev-con{
+            display: grid;
+            grid-template-rows: auto auto auto auto;
+            place-items: center;
+            margin: 30px 5px 0 5px;
+            /* box-shadow: 0 0 5px rgb(214, 214, 214);
+            border-radius: 25px; */
+            height: 545px;
+        }
+        .social-con{
+            display: grid;
+            grid-template-columns: auto auto auto auto auto;
+            place-items: center;
+            margin: 0 0 30px 0;
+        }
+        .prof-img{
+            width: 10vw;
+            border-radius: 50%;
+            margin: 20px 0 20px 0;
+        }
+        .dev-des{
+            text-align: center;
+            margin: 0 0 50px 0;
+            font-size: 15px;
+            padding: 0 10px 0 10px;
+        }
+        .icons{
+            padding: 0 10px  0 10px;
+            font-size: 20px;
+        }
+        .dev-name{
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0 15px 0;
+        }
+        .fa-youtube{
+            color: red;
+        }
+        .fa-facebook{
+            color: blue;
+        }
+        .fa-instagram{
+            color: rgb(255, 0, 140);
+        }
+        .fa-youtube, .fa-facebook, .fa-instagram, .fa-tiktok, .fa-x{
+            transition: 0.3s;
+        }
+        .fa-youtube:hover, .fa-facebook:hover, .fa-instagram:hover, .fa-tiktok:hover, .fa-x:hover{
+            cursor: pointer;
+            font-size: 25px;
+        }
+        .hr{
+            opacity: 0;
+        }
+
+
+        @media screen and (max-width: 767px) {
+            
+            .developers-txt{
+                color: white;
+                font-size: 40px;
+                text-align: center;
+             }
+            .bottom{
+                display: grid;
+                grid-template-columns: 1fr;
+                place-items: center;
+            }
+            .dev-con{
+                display: grid;
+                grid-template-rows: auto auto auto auto auto;
+                place-items: center;
+                margin: 10px 10px 0 10px;
+            }
+            .prof-img{
+                width: 40vw;
+                border-radius: 50%;
+                margin-top: 20px;
+            }
+            .top{
+            display: grid;
+            grid-template-columns: 1fr 7fr;
+            background-color: rgb(0, 0, 0, 0.80);
+            width: 100%;
+            position: fixed;
+            z-index: 1000;
+            backdrop-filter: saturate(180%) blur(20px);
+            }
+            .hr{
+                opacity: 1;
+                width: 90%;
+                height: 1px;
+                background-color: rgb(197, 197, 197);
+            }
+            .logout{
+                text-decoration: none;
+                list-style: none;
+                color: white;
+                text-align: center;
+                font-size: 10px;
+            }
+            .box{
+                display: flex;
+                width: 15%;
+                height: 100%;
+                position: absolute;
+                background-color: blue;
+                text-align: left;
+                left: -500px;
+                pointer-events: none;
+                opacity: 0;
+                z-index: 2000; /* Ensure it's above other content */
+                margin-top: 30px;
+                transition: 0.3s;
+                background-color: rgb(0, 0, 0, 0.80);
+                backdrop-filter: saturate(180%) blur(20px);
+            }
+            .active.box{
+                opacity: 1;
+                left: 0px;
+                pointer-events: fill;
+                position: fixed;
+            }
+        }
+
+        @media screen and (min-width: 768px) and (max-width: 1110px) {
+            .bottom{
+            display: grid;
+            grid-template-columns: auto auto auto ;
+            place-items: center;
+            }
+            .dev-con{
+            display: grid;
+            grid-template-rows: auto auto auto auto;
+            place-items: center;
+            margin: 10px 10px 0 10px;
+            } 
+        }
+
+        .logout{
+            text-decoration: none;
+            list-style: none;
+            color: white;
+            transition: 0.5s;
+        }
+        .logout:hover{
+            color: gray;
+        }
+        .box{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 12%;
+            height: 100%;
+            position: absolute;
+            background-color: blue;
+            text-align: left;
+            left: -500px;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 2000; /* Ensure it's above other content */
+            margin-top: 30px;
+            transition: 0.3s;
+            background-color: rgb(0, 0, 0, 0.80);
+            backdrop-filter: saturate(180%) blur(20px);
+        }
+        .active.box{
+            opacity: 1;
+            left: 0px;
+            pointer-events: fill;
+            position: fixed;
+        }
+        .black{
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            position: absolute;
+            position: fixed;
+            opacity: 0;
+            transition: 0.5s;
+        }
+        .active.black{
+            background-color: rgb(0, 0, 0, 0.80);
+            backdrop-filter: saturate(180%) blur(20px);
+            z-index: 1000;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="black"></div>
+    <div class="box">
+        <a href="index.html" class="logout">Log Out</a>
+    </div>
+    <div class="main">
+        <div class="top">
+            <div class="hamburgermenu">
+                <div class="hamburgermenucontainer">
+                    <div class="menu" onclick="myFunction(this)">
+                      <div class="bar1"></div>
+                      <div class="bar2"></div>
+                      <div class="bar3"></div>
+                    </div>
+                    <script>
+                      function myFunction(x) {
+                        x.classList.toggle("change");
+                      }
+                    </script>
+                </div>
+            </div>
+            <div class="selections">
+                <div class="selection-textcon">
+                    <a class="selection-txt navbar-selections" href="spotted.html">Spotted</a>
+                </div>
+                <div class="selection-textcon">
+                    <a class="selection-txt navbar-selections" href="portrait.html">Portrait</a>
+                </div>
+                <div class="selection-textcon">
+                    <a class="selection-txt navbar-selections" href="foods.html">Foods</a>
+                </div>
+                <div class="selection-textcon">
+                    <a class="selection-txt navbar-selections" href="nature.html">Nature</a>
+                </div>
+                <div class="selection-textcon">
+                    <a class="selection-txt navbar-selections" href="street.html">Street</a>
+                </div>
+                <div class="selection-textcon">
+                    <a class="selection-txt navbar-selections" href="myself.html">Myself</a>
+                </div>
+                <div class="selection-textcon">
+                    <a class="selection-txt navbar-selections" href="developersinfo.html">About Us</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="top2">
+            <p class="developers-txt">MEET OUR TEAM</p>
+        </div>
+        <div class="bottom">
+            <div class="dev-con">
+                <img class="prof-img" src="klarence.jpg" alt="">
+                <p class="dev-name">Klarence A. De Gracia</p>
+                <p class="dev-des"><b>Leader/ Designer</b> <br><br>
+                    A talented 18 year old leader and designer. With a passion for creative design and innovation, Klarence created the stunning visual design of our website. When he's not working on our website, Klarence enjoys exploring new music. </p>
+                <div class="social-con">
+                    <i class="fa-brands fa-youtube icons"></i>
+                    <i class="fa-solid fa-x icons"></i>
+                    <i class="fa-brands fa-instagram icons"></i>
+                    <i class="fa-brands fa-facebook icons"></i>
+                    <i class="fa-brands fa-tiktok icons"></i>
+                </div>
+                <div class="hr"></div>
+            </div>
+            
+            <div class="dev-con">
+                <img class="prof-img" src="duran.jpg" alt="">
+                <p class="dev-name">Christian Duran</p>
+                <p class="dev-des">
+                    <b>Senior programmer</b> <br><br>
+                    As our senior programmer, Christian brings a wealth of experience and expertise to our team. Christian has been instrumental in developing the functionality of our website. His exceptional skills and attention to detail have earned him a reputation as a go-to expert for complex programming challenges. He enjoys learning new technologies and exploring outdoors. 
+                </p>
+                <div class="social-con">
+                    <i class="fa-brands fa-youtube icons"></i>
+                    <i class="fa-solid fa-x icons"></i>
+                    <i class="fa-brands fa-instagram icons"></i>
+                    <i class="fa-brands fa-facebook icons"></i>
+                    <i class="fa-brands fa-tiktok icons"></i>
+                </div>
+                <div class="hr"></div>
+            </div>
+           
+            <div class="dev-con">
+                <img class="prof-img" src="denniela.jpg" alt="">
+                <p class="dev-name">Deniella V. Tingson</p>
+                <p class="dev-des">
+                    <b>Junior Programmer</b> <br><br>
+                    Denniela is an eager learner who is quickly making a name for herself within our team. With a passion for web development, Denniela is excited to be working on her first website project with us. In her free time, Denniela enjoys attending tech conferences and meetups, and is always looking for new ways to improve her skills. 
+                </p>
+                <div class="social-con">
+                    <i class="fa-brands fa-youtube icons"></i>
+                    <i class="fa-solid fa-x icons"></i>
+                    <i class="fa-brands fa-instagram icons"></i>
+                    <i class="fa-brands fa-facebook icons"></i>
+                    <i class="fa-brands fa-tiktok icons"></i>
+                </div>
+                <div class="hr"></div>
+            </div>
+            
+            <div class="dev-con">
+                <img class="prof-img" src="kyla.png" alt="">
+                <p class="dev-name">Kyla S. Jalique</p>
+                <p class="dev-des">
+                    <b>Junior Programmer</b> <br><br>
+                    Kyla is joining our team with a fresh perspective and a stronf foundation in programming. Kyla is eager to apply her skills to real-world projects. In her free time, she enjoys watching movies and playing games.
+                </p>
+                    
+                <div class="social-con">
+                    <i class="fa-brands fa-youtube icons"></i>
+                    <i class="fa-solid fa-x icons"></i>
+                    <i class="fa-brands fa-instagram icons"></i>
+                    <i class="fa-brands fa-facebook icons"></i>
+                    <i class="fa-brands fa-tiktok icons"></i>
+                </div>
+                <div class="hr"></div>
+            </div>
+            
+            <div class="dev-con">
+                <img class="prof-img" src="pj.jpg" alt="">
+                <p class="dev-name">Jhon Patrick D. Acedo</p>
+                <p class="dev-des">
+                    <b>Lead Programmer</b> <br><br>
+                    As our lead programmer he's responsible for developing the core functionality of our website. At just 18 years old, Pj has already made a significant impact on our team with his impressive coding skills and innovative problem-solving abilities. When he's not working, Pj enjoys learning new programming languages and playing video games. 
+                </p>
+                <div class="social-con">
+                    <i class="fa-brands fa-youtube icons"></i>
+                    <i class="fa-solid fa-x icons"></i>
+                    <i class="fa-brands fa-instagram icons"></i>
+                    <i class="fa-brands fa-facebook icons"></i>
+                    <i class="fa-brands fa-tiktok icons"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+        let hamburgermenu = document.querySelector(".hamburgermenu");
+        let box = document.querySelector(".box");
+        let black = document.querySelector(".black");
+        let menu =  document.querySelector(".menu");
+    
+        hamburgermenu.onclick = function(){
+            hamburgermenu.classList.toggle("active");
+            box.classList.toggle("active");
+            black.classList.toggle("active");
+            menu.classList.toogle("active");
+        }
+
+        document.onclick = function(e){
+            if(!hamburgermenu.contains(e.target) && !box.contains(e.target)){
+                hamburgermenu.classList.remove("active");
+                box.classList.remove("active");
+                black.classList.remove("active");
+                menu.classList.remove("active");
+            }
+        }
+    </script>
+</body>
+</html>

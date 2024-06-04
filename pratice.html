@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixed Footer Example</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .content {
+            padding: 20px;
+            height: 2000px; /* Just to create some scrollable content */
+            background-color: #f0f0f0;
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            line-height: 100px; /* Vertically center text */
+            z-index: 1000; /* Ensure it appears in front of other elements */
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Welcome to the website</h1>
+        <p>Scroll down to see the fixed footer.</p>
+    </div>
+    <div class="footer">
+        This is a fixed footer
+    </div>
+</body>
+</html>
